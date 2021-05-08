@@ -2,6 +2,8 @@
 #include "Window.h"
 
 namespace helper {
+
+	// 一番メモリ量が大きいアダプターを取得する
 	DXGIAdapterPtr createDXGIAdapter() {
 
 		DXGIAdapterPtr adapter{ nullptr };
@@ -15,11 +17,14 @@ namespace helper {
 			int GPUNumber{ 0 };
 			int GPUMaxMem{ 0 };
 
+			// hr = factory->EnumAdapters(i, &add);
+
 			// 一番強いGPUアダプタを検索
-			for (int i{ 0 }; i < 100; ++i) {
-				DXGIAdapterPtr add{ nullptr };
-				hr = factory->EnumAdapters(i, &add);
-				if (FAILED(hr)) break;
+			DXGIAdapterPtr add{ nullptr };
+			for (int i{ 0 }; DXGI_ERROR_NOT_FOUND != factory->EnumAdapters(i, &add); ++i) {
+				// DXGIAdapterPtr add{ nullptr };
+				// hr = factory->EnumAdapters(i, &add);
+				// if (FAILED(hr)) break;
 
 				DXGI_ADAPTER_DESC adapterDesc{};
 				hr = add->GetDesc(&adapterDesc);
@@ -39,7 +44,6 @@ namespace helper {
 					int videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
 					std::string videoCardMemoryStr = "ビデオメモリー : " + std::to_string(videoCardMemory) + "\n";
 					OutputDebugStringA(videoCardMemoryStr.c_str());
-
 
 					// アウトプットに番号をつける
 					DXGIOutputPtr adapterOutput{ nullptr };
@@ -166,15 +170,15 @@ void DirectXDevice::setPixelShader(PixelShader& _pixelShader)
 	deviceContext->PSSetShader(_pixelShader.getShader().Get(), nullptr, 0);
 }
 
-void DirectXDevice::SetVertexBuffer(D3D11VertexBuffer& _vertexBuffer, UINT _vertexSize)
+void DirectXDevice::SetVertexBuffer(ID3D11Buffer* _vertexBuffer, UINT _vertexSize)
 {
 	UINT hOffsets{ 0 };
 	deviceContext->IASetVertexBuffers(0, 1, &_vertexBuffer, &_vertexSize, &hOffsets);
 }
 
-void DirectXDevice::SetIndexBuffer(D3D11IndexBuffer& _indexBuffer)
+void DirectXDevice::SetIndexBuffer(ID3D11Buffer* _indexBuffer)
 {
-	deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	deviceContext->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
 void DirectXDevice::SetTexture2d(UINT _registerNo, ID3D11ShaderResourceView* _texture)

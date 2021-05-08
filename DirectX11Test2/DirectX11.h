@@ -19,9 +19,9 @@ public:
 
 	void setPixelShader(PixelShader& _pixelShader);
 
-	void SetVertexBuffer(D3D11VertexBuffer& _vertexBuffer, UINT _vertexSize);
+	void SetVertexBuffer(ID3D11Buffer* _vertexBuffer, UINT _vertexSize);
 
-	void SetIndexBuffer(D3D11IndexBuffer& _indexBuffer);
+	void SetIndexBuffer(ID3D11Buffer* _indexBuffer);
 	
 	void SetTexture2d(UINT _registerNo, ID3D11ShaderResourceView* _texture);
 	

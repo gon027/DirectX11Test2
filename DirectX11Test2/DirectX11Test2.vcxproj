@@ -140,8 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DirectX11.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX11.h" />
-    <ClInclude Include="DirectX11Buffer.h" />
     <ClInclude Include="DirectXLib.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
