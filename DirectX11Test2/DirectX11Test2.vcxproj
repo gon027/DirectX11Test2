@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DirectX11.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,6 +151,7 @@
     <None Include="2DPipeLine.hlsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DirectX11.h" />
     <ClInclude Include="DirectXLib.h" />
     <ClInclude Include="IndexBuffer.h" />

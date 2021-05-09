@@ -33,3 +33,10 @@ using D3D11RenderTargetView = ComPtr<ID3D11RenderTargetView>;
 using DXGFactroyPtr  = ComPtr<IDXGIFactory>;
 using DXGIAdapterPtr = ComPtr<IDXGIAdapter>;
 using DXGIOutputPtr  = ComPtr<IDXGIOutput>;
+
+struct ConstantBufferMatrix
+{
+	XMMATRIX world;
+	XMMATRIX view;
+	XMMATRIX projection;
+};

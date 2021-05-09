@@ -22,7 +22,9 @@ public:
 	void SetVertexBuffer(ID3D11Buffer* _vertexBuffer, UINT _vertexSize);
 
 	void SetIndexBuffer(ID3D11Buffer* _indexBuffer);
-	
+
+	void setContantBuffer(ID3D11Buffer* _constantBuffer, ConstantBufferMatrix& _matrix);
+
 	void SetTexture2d(UINT _registerNo, ID3D11ShaderResourceView* _texture);
 	
 	void DrawBegin();

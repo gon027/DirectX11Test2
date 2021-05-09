@@ -1,6 +1,6 @@
 
 struct VS_INPUT {
-	float3 Pos : POSITION;
+	float4 Pos : POSITION;
 	float4 Col : TEXCOORD;
 };
 
@@ -9,11 +9,21 @@ struct PS_INPUT {
 	float4 Col : TEXCOORD;
 };
 
-PS_INPUT vsMain(VS_INPUT pos) {
-	PS_INPUT o = (PS_INPUT)0;
-	o.Pos = float4(pos.Pos, 1);
-	o.Col = pos.Col;
-	return o;
+cbuffer ConstantBuffer : register(b0) {
+	matrix World;
+	matrix View;
+	matrix Projection;
+}
+
+PS_INPUT vsMain(VS_INPUT IN) {
+	PS_INPUT OUT = (PS_INPUT)0;
+
+	OUT.Pos = mul(IN.Pos, World);        // ワールド変換
+	OUT.Pos = mul(OUT.Pos, View);        // ビュー変換
+	//OUT.Pos = mul(OUT.Pos, Projection);  // プロジェクション変換
+	OUT.Col = IN.Col;
+
+	return OUT;
 }
 
 float4 psMain(PS_INPUT input) : SV_TARGET{

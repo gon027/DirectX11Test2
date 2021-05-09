@@ -181,6 +181,12 @@ void DirectXDevice::SetIndexBuffer(ID3D11Buffer* _indexBuffer)
 	deviceContext->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
+void DirectXDevice::setContantBuffer(ID3D11Buffer* _constantBuffer, ConstantBufferMatrix& _matrix)
+{
+	deviceContext->UpdateSubresource(_constantBuffer, 0, nullptr, &_matrix, 0, 0);
+	deviceContext->VSSetConstantBuffers(0, 1, &_constantBuffer);
+}
+
 void DirectXDevice::SetTexture2d(UINT _registerNo, ID3D11ShaderResourceView* _texture)
 {
 	deviceContext->PSSetShaderResources(_registerNo, 1, &_texture);
