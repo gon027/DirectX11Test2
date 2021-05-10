@@ -28,13 +28,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Camera3D camera;
 
-	Rect rc(dxDevice.getDevicePtr(), dxDevice.getContext());;
+	Rect rc(dxDevice.getDevicePtr(), dxDevice.getContext(), { 0.0f, 0.0f, 3.0f }, 0.5f);
+	Rect rc2(dxDevice.getDevicePtr(), dxDevice.getContext(), { 0.0f, 0.0f, 5.0f }, 1.0f);
 
 	std::vector<Vertex> vertexs2 =
 	{
 		{ XMFLOAT3{ -0.25f, -0.7f, 3 },  XMFLOAT4{ 0, 0, 1, 1 } },
-		{ XMFLOAT3{  0.80f, -0.8f, 3 },   XMFLOAT4{ 0, 0, 1, 1 } },
-		{ XMFLOAT3{  0.80f, 0.8f,  3 },    XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.80f, -0.8f, 3 },  XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.80f, 0.8f,  3 },  XMFLOAT4{ 0, 0, 1, 1 } },
 	};
 
 	std::vector<UINT> idxs2 = { 0, 2, 1 };
@@ -63,8 +64,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			frame += 0.01f;
 
 			camera.update();
-			camera.rotate(0.0f, 0.0f, frame);
-			// camera.move(1.0f, 0.0f, 0.0f);
+			//camera.rotate(0.0f, 0.0f, frame);
+			//camera.move(1.0f, 0.0f, 0.0f);
 
 			dxDevice.setVertexShader(vs);
 			dxDevice.setPixelShader(ps);
@@ -72,7 +73,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			dxDevice.setContantBuffer(cb.getConstantBuffer(), camera.getMVPMatrix());
 
-			rc.draw();
+			rc.setPos({ sinf(frame), 0.0f, 3.0f });
+			rc.draw(); 
+			
+			rc2.setPos({ cosf(frame), 0.0f, 5.0f });
+			rc2.draw();
 
 			// dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
 			// dxDevice.SetIndexBuffer(ib2.getIndexBuffer());

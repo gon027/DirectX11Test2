@@ -202,7 +202,7 @@ void DirectXDevice::DrawBegin()
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// 指定色で画面クリア
-	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 0.0f, 0.7f, 0.8f, 1.0f }; //red,green,blue,alpha
 	deviceContext->ClearRenderTargetView(rtView.Get(), ClearColor);
 	deviceContext->RSSetViewports(1, &viewport);
 

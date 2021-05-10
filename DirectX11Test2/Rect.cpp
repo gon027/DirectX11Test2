@@ -1,6 +1,6 @@
 #include "Rect.h"
 
-Rect::Rect(ID3D11Device* _device, ID3D11DeviceContext* _context)
+Rect::Rect(ID3D11Device* _device, ID3D11DeviceContext* _context, const Vector3& _pos, float _size)
 	: device(_device)
 	, context(_context)
 	, vertex(4)
@@ -9,13 +9,22 @@ Rect::Rect(ID3D11Device* _device, ID3D11DeviceContext* _context)
 	, indexBuffer()
 	, vertexNum(0)
 	, indexNum(0)
+	, pos(_pos)
+	, size(_size)
 {
+	Vector3 v1{ pos.x - size, pos.y - size, pos.z };
+	Vector3 v2{ pos.x + size, pos.y - size, pos.z };
+	Vector3 v3{ pos.x + size, pos.y + size, pos.z };
+	Vector3 v4{ pos.x - size, pos.y + size, pos.z };
 
 	// í∏ì_Çê›íË
-	vertex[0] = { XMFLOAT3{ -0.5f,-0.5f, 0.0f }, XMFLOAT4{ 1, 0, 0, 1 } };
-	vertex[1] = { XMFLOAT3{  0.5f,-0.5f, 0.0f }, XMFLOAT4{ 0, 1, 0, 1 } };
-	vertex[2] = { XMFLOAT3{ 0.5f, 0.5f, 0.0f },  XMFLOAT4{ 0, 0, 1, 1 } };
-	vertex[3] = { XMFLOAT3{ -0.5f, 0.5f, 0.0f }, XMFLOAT4{ 1, 1, 1, 1 } };
+
+	XMFLOAT4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+
+	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color };
+	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color };
+	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color };
+	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color };
 
 	vertexNum = static_cast<UINT>(vertex.size());
 
@@ -31,10 +40,35 @@ Rect::Rect(ID3D11Device* _device, ID3D11DeviceContext* _context)
 
 	vertexBuffer.init(device, vertex.data(), vertexNum);
 	indexBuffer.init(device,  index.data(),  indexNum);
-}	
+}
+void Rect::setPos(float _x, float _y, float _z)
+{
+	setPos({ _x, _y, _z });
+}
+
+void Rect::setPos(const Vector3& _pos)
+{
+	pos = _pos;
+}
 
 void Rect::draw()
 {
+	Vector3 v1{ pos.x - size, pos.y - size, pos.z };
+	Vector3 v2{ pos.x + size, pos.y - size, pos.z };
+	Vector3 v3{ pos.x + size, pos.y + size, pos.z };
+	Vector3 v4{ pos.x - size, pos.y + size, pos.z };
+
+	// í∏ì_Çê›íË
+
+	XMFLOAT4 color{ 0.0f, 1.0f, 0.0f, 1.0f };
+
+	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color };
+	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color };
+	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color };
+	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color };
+
+	vertexBuffer.update(device);
+
 	UINT hOffsets{ 0 };
 	ID3D11Buffer* ppVertexBuffer = vertexBuffer.getVertexBuffer();
 	UINT strides = sizeof(Vertex);
