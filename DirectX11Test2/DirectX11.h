@@ -35,6 +35,10 @@ public:
 
 	const D3D11Device& getDevice();
 
+	ID3D11Device* getDevicePtr();
+
+	ID3D11DeviceContext* getContext();
+
 private:
 	D3D11Device           device;
 	D3D11DeviceContext    deviceContext;

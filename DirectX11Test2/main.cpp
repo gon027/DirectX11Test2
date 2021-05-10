@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Vertex.h"
 #include "Camera3D.h"
+#include "Rect.h"
 #include <vector>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
@@ -16,8 +17,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	DirectXDevice dxDevice;
 	if(!dxDevice.init(&win)) return -1;
 
-	Camera3D camera;
-
 	VertexShader vs;
 	if(!vs.createShader(dxDevice.getDevice(), "Shader/Vertex.hlsl", "vsMain")) return -1;
 
@@ -27,27 +26,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	InputLayout il;
 	if(!il.createInputLayout(dxDevice.getDevice(), "Shader/Vertex.hlsl", "vsMain")) return -1;
 
-	std::vector<Vertex> vertexs =
-	{
-		{ XMFLOAT3{ -0.5f,-0.5f, 2.0f }, XMFLOAT4{ 1, 0, 0, 1 } },
-		{ XMFLOAT3{  0.5f,-0.5f, 2.0f }, XMFLOAT4{ 0, 1, 0, 1 } },
-		{ XMFLOAT3{  0.5f, 0.5f, 2.0f }, XMFLOAT4{ 0, 0, 1, 1 } },
-		{ XMFLOAT3{ -0.5f, 0.5f, 2.0f }, XMFLOAT4{ 1, 1, 1, 1 } },
-	};
+	Camera3D camera;
 
-	std::vector<UINT> idxs = { 0, 3, 2, 0, 2, 1, 4, 6, 5 };
-
-	VertexBuffer vb;
-	vb.init(dxDevice.getDevice(), vertexs.data(), static_cast<UINT>(vertexs.size()));
-
-	IndexBuffer ib;
-	ib.init(dxDevice.getDevice(), idxs.data(), static_cast<UINT>(idxs.size()));
+	Rect rc(dxDevice.getDevicePtr(), dxDevice.getContext());;
 
 	std::vector<Vertex> vertexs2 =
 	{
-		{ XMFLOAT3{ -0.25f, -0.7f, 0 },  XMFLOAT4{ 0, 0, 1, 1 } },
-		{ XMFLOAT3{  0.8f, -0.8f, 0 },   XMFLOAT4{ 0, 0, 1, 1 } },
-		{ XMFLOAT3{  0.8f, 0.8f, 0 },    XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{ -0.25f, -0.7f, 3 },  XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.80f, -0.8f, 3 },   XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.80f, 0.8f,  3 },    XMFLOAT4{ 0, 0, 1, 1 } },
 	};
 
 	std::vector<UINT> idxs2 = { 0, 2, 1 };
@@ -85,16 +72,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			dxDevice.setContantBuffer(cb.getConstantBuffer(), camera.getMVPMatrix());
 
-			dxDevice.SetVertexBuffer(vb.getVertexBuffer(), sizeof(Vertex));
-			dxDevice.SetIndexBuffer(ib.getIndexBuffer());
-			// ドローコール
-			dxDevice.DrawIndexed(static_cast<UINT>(idxs.size()));
+			rc.draw();
 
-			dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
-			dxDevice.SetIndexBuffer(ib2.getIndexBuffer());
+			// dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
+			// dxDevice.SetIndexBuffer(ib2.getIndexBuffer());
 
 			// ドローコール
-			dxDevice.DrawIndexed(static_cast<UINT>(idxs.size()));
+			// dxDevice.DrawIndexed(static_cast<UINT>(idxs.size()));
 		}
 		dxDevice.DrawEnd();
 

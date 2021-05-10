@@ -144,6 +144,7 @@
     <ClCompile Include="DirectX11.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="DirectX11.h" />
     <ClInclude Include="DirectXLib.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="Shader.h" />
     <None Include="Shader\ShaderHeader.h" />
     <ClInclude Include="Vertex.h" />

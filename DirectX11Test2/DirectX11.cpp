@@ -225,3 +225,13 @@ const D3D11Device& DirectXDevice::getDevice()
 {
 	return device;
 }
+
+ID3D11Device* DirectXDevice::getDevicePtr()
+{
+	return device.Get();
+}
+
+ID3D11DeviceContext* DirectXDevice::getContext()
+{
+	return deviceContext.Get();
+}
