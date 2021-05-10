@@ -23,7 +23,7 @@ public:
 
 	void SetIndexBuffer(ID3D11Buffer* _indexBuffer);
 
-	void setContantBuffer(ID3D11Buffer* _constantBuffer, ConstantBufferMatrix& _matrix);
+	void setContantBuffer(ID3D11Buffer* _constantBuffer, const ConstantBufferMatrix& _matrix);
 
 	void SetTexture2d(UINT _registerNo, ID3D11ShaderResourceView* _texture);
 	

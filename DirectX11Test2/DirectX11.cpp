@@ -3,6 +3,11 @@
 
 namespace helper {
 
+	struct VideoCardInfo {
+		std::string videoCardName;
+		std::string videoMemory;
+	};
+
 	// 一番メモリ量が大きいアダプターを取得する
 	DXGIAdapterPtr createDXGIAdapter() {
 
@@ -17,15 +22,11 @@ namespace helper {
 			int GPUNumber{ 0 };
 			int GPUMaxMem{ 0 };
 
-			// hr = factory->EnumAdapters(i, &add);
+			VideoCardInfo videoCardInfo{};
 
 			// 一番強いGPUアダプタを検索
 			DXGIAdapterPtr add{ nullptr };
 			for (int i{ 0 }; DXGI_ERROR_NOT_FOUND != factory->EnumAdapters(i, &add); ++i) {
-				// DXGIAdapterPtr add{ nullptr };
-				// hr = factory->EnumAdapters(i, &add);
-				// if (FAILED(hr)) break;
-
 				DXGI_ADAPTER_DESC adapterDesc{};
 				hr = add->GetDesc(&adapterDesc);
 
@@ -36,14 +37,12 @@ namespace helper {
 					int error = wcstombs_s(&stringLength, videoCardDescription, 128, adapterDesc.Description, 128);
 					if (error != 0) break;
 					std::string videoCard = "ビデオカード名 : " + std::string(videoCardDescription) + "\n";
-					OutputDebugStringA(videoCard.c_str());
-				}
-
-				// ビデオカードメモリを取得
-				{
+					//OutputDebugStringA(videoCard.c_str());
+				
+					// ビデオカードメモリを取得
 					int videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
 					std::string videoCardMemoryStr = "ビデオメモリー : " + std::to_string(videoCardMemory) + "\n";
-					OutputDebugStringA(videoCardMemoryStr.c_str());
+					//OutputDebugStringA(videoCardMemoryStr.c_str());
 
 					// アウトプットに番号をつける
 					DXGIOutputPtr adapterOutput{ nullptr };
@@ -58,9 +57,14 @@ namespace helper {
 					if (videoCardMemory > GPUMaxMem) {
 						GPUMaxMem = videoCardMemory;
 						GPUNumber = i;
+						videoCardInfo.videoCardName = videoCard;
+						videoCardInfo.videoMemory = videoCardMemoryStr;
 					}
 				}
 			}
+
+			OutputDebugStringA(videoCardInfo.videoCardName.c_str());
+			OutputDebugStringA(videoCardInfo.videoMemory.c_str());
 
 			// グラフィックス　インターフェース　アダプターを作成
 			hr = factory->EnumAdapters(GPUNumber, &adapter);
@@ -181,7 +185,7 @@ void DirectXDevice::SetIndexBuffer(ID3D11Buffer* _indexBuffer)
 	deviceContext->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void DirectXDevice::setContantBuffer(ID3D11Buffer* _constantBuffer, ConstantBufferMatrix& _matrix)
+void DirectXDevice::setContantBuffer(ID3D11Buffer* _constantBuffer, const ConstantBufferMatrix& _matrix)
 {
 	deviceContext->UpdateSubresource(_constantBuffer, 0, nullptr, &_matrix, 0, 0);
 	deviceContext->VSSetConstantBuffers(0, 1, &_constantBuffer);

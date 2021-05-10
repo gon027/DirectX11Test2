@@ -20,7 +20,7 @@ PS_INPUT vsMain(VS_INPUT IN) {
 
 	OUT.Pos = mul(IN.Pos, World);        // ワールド変換
 	OUT.Pos = mul(OUT.Pos, View);        // ビュー変換
-	//OUT.Pos = mul(OUT.Pos, Projection);  // プロジェクション変換
+	OUT.Pos = mul(OUT.Pos, Projection);  // プロジェクション変換
 	OUT.Col = IN.Col;
 
 	return OUT;

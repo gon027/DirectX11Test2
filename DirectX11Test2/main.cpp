@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 #include "Shader.h"
 #include "Vertex.h"
+#include "Camera3D.h"
 #include <vector>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
@@ -14,6 +15,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	DirectXDevice dxDevice;
 	if(!dxDevice.init(&win)) return -1;
+
+	Camera3D camera;
 
 	VertexShader vs;
 	if(!vs.createShader(dxDevice.getDevice(), "2DPipeLine.hlsl", "vsMain")) return -1;
@@ -26,14 +29,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	std::vector<Vertex> vertexs =
 	{
-		{XMFLOAT3{ -0.5f,-0.5f, 2.0f },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{  0.5f,-0.5f, 2.0f },  XMFLOAT4{ 0, 1, 1, 1 }},
+		{XMFLOAT3{ -0.5f,-0.5f, 2.0f },  XMFLOAT4{ 1, 0, 0, 1 }},
+		{XMFLOAT3{  0.5f,-0.5f, 2.0f },  XMFLOAT4{ 0, 1, 0, 1 }},
 		{XMFLOAT3{  0.5f, 0.5f, 2.0f },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{ -0.5f, 0.5f, 2.0f },  XMFLOAT4{ 0, 0, 1, 1 }},
-
-		{XMFLOAT3{ -0.25f, -0.7f, 0 },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{ 0.8f, -0.8f, 0 },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{ 0.8f, 0.8f, 0 },  XMFLOAT4{ 0, 0, 1, 1 }},
+		{XMFLOAT3{ -0.5f, 0.5f, 2.0f },  XMFLOAT4{ 1, 1, 1, 1 }},
 	};
 
 	std::vector<UINT> idxs = { 0, 3, 2, 0, 2, 1, 4, 6, 5 };
@@ -44,10 +43,23 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	IndexBuffer ib;
 	ib.init(dxDevice.getDevice(), idxs.data(), static_cast<UINT>(idxs.size()));
 
+	std::vector<Vertex> vertexs2 =
+	{
+		{XMFLOAT3{ -0.25f, -0.7f, 0 },  XMFLOAT4{ 0, 0, 1, 1 }},
+		{XMFLOAT3{  0.8f, -0.8f, 0 },   XMFLOAT4{ 0, 0, 1, 1 }},
+		{XMFLOAT3{  0.8f, 0.8f, 0 },    XMFLOAT4{ 0, 0, 1, 1 }},
+	};
+
+	std::vector<UINT> idxs2 = { 0, 2, 1 };
+
+	VertexBuffer vb2;
+	vb2.init(dxDevice.getDevice(), vertexs2.data(), static_cast<UINT>(vertexs2.size()));
+
+	IndexBuffer ib2;
+	ib2.init(dxDevice.getDevice(), idxs2.data(), static_cast<UINT>(idxs2.size()));
+
 	ConstantBuffer cb;
 	cb.init(dxDevice.getDevice());
-
-	// 変換行列を作成
 
 	float frame = 0.0f;
 
@@ -61,43 +73,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		dxDevice.DrawBegin();
 		{
-			
-			// ワールド座標作成
-			XMMATRIX world = XMMatrixIdentity();
+			frame += 0.001f;
 
-			// ビュー行列作成
-			XMVECTOR eye   = XMVectorSet(0.0f, 0.0f, -2.0f, 0.0f);
-			XMVECTOR focus = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-			XMVECTOR up    = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-			XMMATRIX view  = XMMatrixLookAtLH(eye, focus, up);
-
-			// プロジェクション行列作成
-			float fov = XMConvertToRadians(45.0f);
-			float aspect = 4.0f / 3.0f;
-			float nearZ = 0.01f;
-			float farZ = 1000.0f;
-			XMMATRIX proj = XMMatrixPerspectiveFovLH(fov, aspect, nearZ, farZ);
-
-			frame += 0.0001f;
-			XMMATRIX rot = XMMatrixRotationZ(frame);
-			world = XMMatrixMultiply(world, rot);
-
-			ConstantBufferMatrix cbMat{ };
-			cbMat.world = world;
-			cbMat.view = view;
-			cbMat.projection = proj;
+			camera.update();
+			camera.rotate(0.0f, 0.0f, frame);
+			camera.move(1.0f, 0.0f, 0.0f);
 
 			dxDevice.setVertexShader(vs);
 			dxDevice.setPixelShader(ps);
 			dxDevice.setInputLayout(il);
+
+			dxDevice.setContantBuffer(cb.getConstantBuffer(), camera.getMVPMatrix());
+
 			dxDevice.SetVertexBuffer(vb.getVertexBuffer(), sizeof(Vertex));
 			dxDevice.SetIndexBuffer(ib.getIndexBuffer());
-			dxDevice.setContantBuffer(cb.getConstantBuffer(), cbMat);
+			// ドローコール
+			dxDevice.DrawIndexed(static_cast<UINT>(idxs.size()));
+
+			dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
+			dxDevice.SetIndexBuffer(ib2.getIndexBuffer());
 
 			// ドローコール
 			dxDevice.DrawIndexed(static_cast<UINT>(idxs.size()));
 		}
 		dxDevice.DrawEnd();
+
+		Sleep(1);
 
 	}
 
