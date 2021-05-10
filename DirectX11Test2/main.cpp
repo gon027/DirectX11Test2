@@ -19,20 +19,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Camera3D camera;
 
 	VertexShader vs;
-	if(!vs.createShader(dxDevice.getDevice(), "2DPipeLine.hlsl", "vsMain")) return -1;
+	if(!vs.createShader(dxDevice.getDevice(), "Shader/Vertex.hlsl", "vsMain")) return -1;
 
 	PixelShader ps;
-	if(!ps.createShader(dxDevice.getDevice(), "2DPipeLine.hlsl", "psMain")) return -1;
+	if(!ps.createShader(dxDevice.getDevice(), "Shader/Pixel.hlsl", "psMain")) return -1;
 
 	InputLayout il;
-	if(!il.createInputLayout(dxDevice.getDevice(), "2DPipeLine.hlsl", "vsMain")) return -1;
+	if(!il.createInputLayout(dxDevice.getDevice(), "Shader/Vertex.hlsl", "vsMain")) return -1;
 
 	std::vector<Vertex> vertexs =
 	{
-		{XMFLOAT3{ -0.5f,-0.5f, 2.0f },  XMFLOAT4{ 1, 0, 0, 1 }},
-		{XMFLOAT3{  0.5f,-0.5f, 2.0f },  XMFLOAT4{ 0, 1, 0, 1 }},
-		{XMFLOAT3{  0.5f, 0.5f, 2.0f },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{ -0.5f, 0.5f, 2.0f },  XMFLOAT4{ 1, 1, 1, 1 }},
+		{ XMFLOAT3{ -0.5f,-0.5f, 2.0f }, XMFLOAT4{ 1, 0, 0, 1 } },
+		{ XMFLOAT3{  0.5f,-0.5f, 2.0f }, XMFLOAT4{ 0, 1, 0, 1 } },
+		{ XMFLOAT3{  0.5f, 0.5f, 2.0f }, XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{ -0.5f, 0.5f, 2.0f }, XMFLOAT4{ 1, 1, 1, 1 } },
 	};
 
 	std::vector<UINT> idxs = { 0, 3, 2, 0, 2, 1, 4, 6, 5 };
@@ -45,9 +45,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	std::vector<Vertex> vertexs2 =
 	{
-		{XMFLOAT3{ -0.25f, -0.7f, 0 },  XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{  0.8f, -0.8f, 0 },   XMFLOAT4{ 0, 0, 1, 1 }},
-		{XMFLOAT3{  0.8f, 0.8f, 0 },    XMFLOAT4{ 0, 0, 1, 1 }},
+		{ XMFLOAT3{ -0.25f, -0.7f, 0 },  XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.8f, -0.8f, 0 },   XMFLOAT4{ 0, 0, 1, 1 } },
+		{ XMFLOAT3{  0.8f, 0.8f, 0 },    XMFLOAT4{ 0, 0, 1, 1 } },
 	};
 
 	std::vector<UINT> idxs2 = { 0, 2, 1 };
@@ -73,11 +73,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		dxDevice.DrawBegin();
 		{
-			frame += 0.001f;
+			frame += 0.01f;
 
 			camera.update();
 			camera.rotate(0.0f, 0.0f, frame);
-			camera.move(1.0f, 0.0f, 0.0f);
+			// camera.move(1.0f, 0.0f, 0.0f);
 
 			dxDevice.setVertexShader(vs);
 			dxDevice.setPixelShader(ps);
