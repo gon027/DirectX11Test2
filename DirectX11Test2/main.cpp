@@ -32,19 +32,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Camera3D camera;
 
 	Rect rc(dxDevice.getDevicePtr(), dxDevice.getContext(), { 0.0f, 0.0f, 3.0f }, 0.5f);
-	Rect rc2(dxDevice.getDevicePtr(), dxDevice.getContext(), { 0.0f, 0.0f, 5.0f }, 1.0f);
 
 	std::vector<Vertex> box =
 	{
-		{ XMFLOAT3{ -0.5f, -0.5f, -0.5f },  XMFLOAT4{ 0, 0, 0, 1 } }, // 0
-		{ XMFLOAT3{  0.5f, -0.5f, -0.5f },  XMFLOAT4{ 0, 0, 1, 1 } }, // 1
-		{ XMFLOAT3{  0.5f,  0.5f, -0.5f },  XMFLOAT4{ 0, 1, 0, 1 } }, // 2 
-		{ XMFLOAT3{ -0.5f,  0.5f, -0.5f },  XMFLOAT4{ 0, 1, 1, 1 } }, // 3
-
-		{ XMFLOAT3{  0.5f, -0.5f,  0.5f },  XMFLOAT4{ 1, 0, 0, 1 } }, // 4
-		{ XMFLOAT3{  0.5f,  0.5f,  0.5f },  XMFLOAT4{ 1, 0, 1, 1 } }, // 5
-		{ XMFLOAT3{ -0.5f, -0.5f,  0.5f },  XMFLOAT4{ 1, 1, 0, 1 } }, // 6
-		{ XMFLOAT3{ -0.5f,  0.5f,  0.5f },  XMFLOAT4{ 1, 1, 1, 1 } }, // 7
+		{ XMFLOAT3{ -0.5f, -0.5f, -0.5f },  XMFLOAT4{ 0, 0, 0, 1 }, XMFLOAT3{ -1.0f, -1.0f, -1.0f } }, // 0
+		{ XMFLOAT3{  0.5f, -0.5f, -0.5f },  XMFLOAT4{ 0, 0, 1, 1 }, XMFLOAT3{  1.0f, -1.0f, -1.0f } }, // 1
+		{ XMFLOAT3{  0.5f,  0.5f, -0.5f },  XMFLOAT4{ 0, 1, 0, 1 }, XMFLOAT3{  1.0f,  1.0f, -1.0f } }, // 2 
+		{ XMFLOAT3{ -0.5f,  0.5f, -0.5f },  XMFLOAT4{ 0, 1, 1, 1 }, XMFLOAT3{ -1.0f,  1.0f, -1.0f } }, // 3
+		{ XMFLOAT3{  0.5f, -0.5f,  0.5f },  XMFLOAT4{ 1, 0, 0, 1 }, XMFLOAT3{  1.0f, -1.0f,  1.0f } }, // 4
+		{ XMFLOAT3{  0.5f,  0.5f,  0.5f },  XMFLOAT4{ 1, 0, 1, 1 }, XMFLOAT3{  1.0f,  1.0f,  1.0f } }, // 5
+		{ XMFLOAT3{ -0.5f, -0.5f,  0.5f },  XMFLOAT4{ 1, 1, 0, 1 }, XMFLOAT3{ -1.0f, -1.0f,  1.0f } }, // 6
+		{ XMFLOAT3{ -0.5f,  0.5f,  0.5f },  XMFLOAT4{ 1, 1, 1, 1 }, XMFLOAT3{ -1.0f,  1.0f,  1.0f } }, // 7
 	};
 
 	std::vector<UINT> idxs2 = {
@@ -66,7 +64,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	cb.init(dxDevice.getDevice());
 
 	float frame = 0.0f;
-
 	MSG msg{ 0 };
 	while (true) {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -83,7 +80,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 				camera.update();
 				camera.move(0.0f, 0.0f, 5.0f);
-				camera.rotate(frame, 0.0f, frame);
+				//camera.rotate(frame, 0.0f, frame);
 			}
 
 			// シェーダのセット
@@ -101,6 +98,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
 				dxDevice.SetIndexBuffer(ib2.getIndexBuffer());
 				dxDevice.DrawIndexed(static_cast<UINT>(idxs2.size()));
+
+				rc.setPos({ 0.0f, 0.0f, -3.0f });
+				rc.draw();
 			}
 		}
 		dxDevice.DrawEnd();

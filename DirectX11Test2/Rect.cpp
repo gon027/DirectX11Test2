@@ -21,10 +21,10 @@ Rect::Rect(ID3D11Device* _device, ID3D11DeviceContext* _context, const Vector3& 
 
 	XMFLOAT4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color };
-	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color };
-	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color };
-	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color };
+	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color, XMFLOAT3{ -1.0f, -1.0f, 0.0f} };
+	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color, XMFLOAT3{  1.0f, -1.0f, 0.0f} };
+	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color, XMFLOAT3{  1.0f,  1.0f, 0.0f} };
+	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color, XMFLOAT3{ -1.0f,  1.0f, 0.0f} };
 
 	vertexNum = static_cast<UINT>(vertex.size());
 
@@ -62,10 +62,10 @@ void Rect::draw()
 
 	XMFLOAT4 color{ 0.0f, 1.0f, 0.0f, 1.0f };
 
-	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color };
-	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color };
-	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color };
-	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color };
+	vertex[0] = { XMFLOAT3{ v1.x, v1.y, v1.z }, color, XMFLOAT3{ -1.0f, -1.0f, 0.0f} };
+	vertex[1] = { XMFLOAT3{ v2.x, v2.y, v2.z }, color, XMFLOAT3{  1.0f, -1.0f, 0.0f} };
+	vertex[2] = { XMFLOAT3{ v3.x, v3.y, v3.z }, color, XMFLOAT3{  1.0f,  1.0f, 0.0f} };
+	vertex[3] = { XMFLOAT3{ v4.x, v4.y, v4.z }, color, XMFLOAT3{ -1.0f,  1.0f, 0.0f} };
 
 	vertexBuffer.update(device);
 

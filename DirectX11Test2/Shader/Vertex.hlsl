@@ -1,17 +1,18 @@
 #include "ShaderHeader.h"
 
 GS_INPUT vsMain(VS_INPUT _In) {
-	GS_INPUT Out = (GS_INPUT)0;
-
 	float4x4 wvp = mul(mul(World, View), Projection);
 
-	/*
-	Out.Pos = mul(_In.Pos, World);       // ワールド変換
-	Out.Pos = mul(Out.Pos, View);        // ビュー変換
-	Out.Pos = mul(Out.Pos, Projection);  // プロジェクション変換
-	*/
+	GS_INPUT Out = (GS_INPUT)0;
+	Out.Pos = mul(_In.Pos, wvp);  // 変換
 
-	Out.Pos = mul(_In.Pos, wvp);  // プロジェクション変換
+	float3 normal = mul(_In.Nor, World).xyz;
+	Out.Nor = normalize(normal);
+
+	//float col = saturate(dot(normal, (float3)Light));
+	//col = col * 0.5f, + 0.5f;
+	//Out.Col = float4(col, col, col, 1.0f);
+	
 	Out.Col = _In.Col;
 
 	return Out;
