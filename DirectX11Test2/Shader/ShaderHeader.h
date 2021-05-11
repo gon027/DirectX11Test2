@@ -14,7 +14,7 @@ struct VS_INPUT {
 struct GS_INPUT {
 	float4 Pos    : SV_POSITION;
 	float4 Col    : TEXCOORD;
-	//float3 Nor    : NORMAL;
+	float3 Nor    : NORMAL;
 };
 
 struct PS_INPUT {

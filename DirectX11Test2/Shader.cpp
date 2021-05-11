@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include <locale.h>
+#include <vector>
 
 namespace flags {
 
@@ -193,15 +194,15 @@ bool InputLayout::createInputLayout(const D3D11Device& _device, const std::strin
 	}
 
 	// Vertex‚É‚¨‚¯‚é“ü—Íİ’è
-	const D3D11_INPUT_ELEMENT_DESC elem[] = {
+	const std::vector<D3D11_INPUT_ELEMENT_DESC> elem = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0,                             0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,  D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0,  D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	hr = _device->CreateInputLayout(
-		elem,
-		2,
+		elem.data(),
+		static_cast<UINT>(elem.size()),
 		blob->GetBufferPointer(),
 		blob->GetBufferSize(),
 		&inputLayout
