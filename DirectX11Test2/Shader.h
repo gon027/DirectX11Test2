@@ -38,6 +38,14 @@ public:
 	bool createShader(const D3D11Device& _device, const std::string& _fileName, const std::string& _entryPoint) override;
 };
 
+class GeometryShader : public BaseShader<D3D11GeometryShader> {
+public:
+	GeometryShader();
+	~GeometryShader() = default;
+
+	bool createShader(const D3D11Device& _device, const std::string& _fileName, const std::string& _entryPoint) override;
+};
+
 class InputLayout {
 public:
 	InputLayout();
