@@ -31,8 +31,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Camera3D camera;
 
-	Rect rc(dxDevice.getDevicePtr(), dxDevice.getContext(), { 0.0f, 0.0f, 3.0f }, 0.5f);
-
 	std::vector<Vertex> box =
 	{
 		{ XMFLOAT3{ -0.5f, -0.5f, -0.5f },  XMFLOAT4{ 0, 0, 0, 1 }, XMFLOAT3{ -1.0f, -1.0f, -1.0f } }, // 0
@@ -80,7 +78,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 				camera.update();
 				camera.move(0.0f, 0.0f, 5.0f);
-				//camera.rotate(frame, 0.0f, frame);
+				camera.rotate(frame, 0.0f, frame);
 			}
 
 			// シェーダのセット
@@ -98,9 +96,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				dxDevice.SetVertexBuffer(vb2.getVertexBuffer(), sizeof(Vertex));
 				dxDevice.SetIndexBuffer(ib2.getIndexBuffer());
 				dxDevice.DrawIndexed(static_cast<UINT>(idxs2.size()));
-
-				rc.setPos({ 0.0f, 0.0f, -3.0f });
-				rc.draw();
 			}
 		}
 		dxDevice.DrawEnd();

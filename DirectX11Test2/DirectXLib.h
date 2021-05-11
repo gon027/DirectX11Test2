@@ -39,5 +39,5 @@ struct ConstantBufferMatrix
 	XMMATRIX world;      // ワールド行列
 	XMMATRIX view;       // ビュー行列
 	XMMATRIX projection; // プロジェクション行列
-	//XMFLOAT4 light;      // 光
+	XMFLOAT4 light;      // 光
 };

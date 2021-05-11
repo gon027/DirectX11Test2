@@ -51,7 +51,7 @@ ConstantBufferMatrix Camera3D::getMVPMatrix()
 	cbMat.world      = XMMatrixTranspose(world);
 	cbMat.view       = XMMatrixTranspose(view);
 	cbMat.projection = XMMatrixTranspose(projection);
-	//XMStoreFloat4(&cbMat.light, XMVector3Normalize(XMVectorSet(0.0f, 0.5f, -1.0f, 0.0f)));
+	XMStoreFloat4(&cbMat.light, XMVector3Normalize(XMVectorSet(0.0f, 5.0f, -5.0f, 0.0f)));
 	return cbMat;
 }
 
