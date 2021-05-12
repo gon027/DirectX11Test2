@@ -9,6 +9,10 @@ namespace helper {
 	}
 }
 
+namespace {
+	float time = 0.0f;
+}
+
 Camera3D::Camera3D()
 	: world(XMMatrixIdentity())
 	, view(XMMatrixIdentity())
@@ -27,7 +31,7 @@ Camera3D::Camera3D()
 void Camera3D::update()
 {
 	world = XMMatrixIdentity();
-
+	time += 0.016f;
 
 }
 
@@ -45,13 +49,33 @@ void Camera3D::rotate(float _x, float _y, float _z)
 	world = rot * world;
 }
 
-ConstantBufferMatrix Camera3D::getMVPMatrix()
+XMMATRIX Camera3D::getWorldMatrix()
 {
-	ConstantBufferMatrix cbMat{};
-	cbMat.world      = XMMatrixTranspose(world);
-	cbMat.view       = XMMatrixTranspose(view);
-	cbMat.projection = XMMatrixTranspose(projection);
-	XMStoreFloat4(&cbMat.light, XMVector3Normalize(XMVectorSet(0.0f, 3.0f, -3.0f, 0.0f)));
-	return cbMat;
+	return world;
+}
+
+XMMATRIX Camera3D::getTPWorldMatrix()
+{
+	return XMMatrixTranspose(world);
+}
+
+XMMATRIX Camera3D::getViewMatrix()
+{
+	return view;
+}
+
+XMMATRIX Camera3D::getTPViewMatrix()
+{
+	return XMMatrixTranspose(view);
+}
+
+XMMATRIX Camera3D::getProjectionMatrix()
+{
+	return projection;
+}
+
+XMMATRIX Camera3D::getTPProjectionMatrix()
+{
+	return  XMMatrixTranspose(projection);
 }
 

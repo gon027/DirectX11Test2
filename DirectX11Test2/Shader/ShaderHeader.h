@@ -3,6 +3,8 @@ cbuffer ConstantBuffer : register(b0) {
 	matrix View;
 	matrix Projection;
 	float4 Light;
+	float4 Time;
+	float time;
 }
 
 struct VS_INPUT {

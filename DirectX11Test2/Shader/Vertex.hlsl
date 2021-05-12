@@ -10,10 +10,7 @@ GS_INPUT vsMain(VS_INPUT _In) {
 	Out.Nor = normalize(_In.Nor);
 
 	float col = saturate(dot(normal, (float3)Light));
-	col = col * 0.5f, + 0.5f;
-	Out.Col = float4(col, col, col, 1.0f);
-	
-	//Out.Col = _In.Col;
+	Out.Col = _In.Col * (1 - col) * abs(sin(Time.y));
 
 	return Out;
 }

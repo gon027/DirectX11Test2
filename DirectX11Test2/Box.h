@@ -5,13 +5,10 @@
 #include "IndexBuffer.h"
 #include <vector>
 
-class Rect {
+class Box {
 public:
-	Rect(ID3D11Device* _device, ID3D11DeviceContext* _context, const Vector3& _pos, float _size);
-	~Rect() = default;
-
-	void setPos(float _x, float _y, float _z);
-	void setPos(const Vector3& _pos);
+	Box(ID3D11Device* _device, ID3D11DeviceContext* _context);
+	~Box() = default;
 
 	void draw();
 
@@ -26,7 +23,4 @@ private:
 
 	UINT vertexNum;
 	UINT indexNum;
-
-	Vector3 pos;
-	float size;
 };

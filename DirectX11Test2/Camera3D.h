@@ -12,7 +12,14 @@ public:
 	void move(float _x, float _y, float _z);
 	void rotate(float _x, float _y, float _z);
 
-	ConstantBufferMatrix getMVPMatrix();
+	XMMATRIX getWorldMatrix();
+	XMMATRIX getTPWorldMatrix();
+
+	XMMATRIX getViewMatrix();
+	XMMATRIX getTPViewMatrix();
+
+	XMMATRIX getProjectionMatrix();
+	XMMATRIX getTPProjectionMatrix();
 
 private:
 	// çsóÒ

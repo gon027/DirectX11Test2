@@ -139,9 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DirectX11.cpp" />
+    <ClCompile Include="DX11Render.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rect.cpp" />
@@ -150,10 +152,12 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Camera3D.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DirectX11.h" />
     <ClInclude Include="DirectXLib.h" />
+    <ClInclude Include="DX11Render.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Shader.h" />

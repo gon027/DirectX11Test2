@@ -34,10 +34,16 @@ using DXGFactroyPtr  = ComPtr<IDXGIFactory>;
 using DXGIAdapterPtr = ComPtr<IDXGIAdapter>;
 using DXGIOutputPtr  = ComPtr<IDXGIOutput>;
 
-struct ConstantBufferMatrix
-{
+struct ConstantBufferMatrix {
 	XMMATRIX world;      // ワールド行列
 	XMMATRIX view;       // ビュー行列
 	XMMATRIX projection; // プロジェクション行列
 	XMFLOAT4 light;      // 光
+	float Time[4];       // 時間
+};
+
+struct Vector3 {
+	float x;
+	float y;
+	float z;
 };

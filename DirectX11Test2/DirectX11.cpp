@@ -159,21 +159,6 @@ bool DirectXDevice::init(const Window* _window)
 	return true;
 }
 
-void DirectXDevice::setInputLayout(InputLayout& _inputLayout)
-{
-	deviceContext->IASetInputLayout(_inputLayout.getInputLayout().Get());
-}
-
-void DirectXDevice::setVertexShader(VertexShader& _vertexShader)
-{
-	deviceContext->VSSetShader(_vertexShader.getShader().Get(), nullptr, 0);
-}
-
-void DirectXDevice::setPixelShader(PixelShader& _pixelShader)
-{
-	deviceContext->PSSetShader(_pixelShader.getShader().Get(), nullptr, 0);
-}
-
 void DirectXDevice::SetVertexBuffer(ID3D11Buffer* _vertexBuffer, UINT _vertexSize)
 {
 	UINT hOffsets{ 0 };
